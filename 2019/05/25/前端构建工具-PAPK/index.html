@@ -307,6 +307,23 @@
 
 
 
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'Meoworu',
+            repo: 'meoworu.github.io',
+            oauth: {
+                client_id: 'df39d76efe1ed4e95beb',
+                client_secret: '82aea008e2bdd81cd1d014e1fdf8dc09cb71b66a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
 
 
 
