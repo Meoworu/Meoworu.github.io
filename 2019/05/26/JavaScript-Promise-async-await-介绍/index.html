@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?afdab76bce7d1c3e421ae7aeee6614da"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>JavaScript Promise async await 介绍 | Meoworu | 前端小白</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#333">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="JavaScript Promise async await 介绍                                                                                             image              对于异步处理JavaScript从未如此简单。有一段时间，我们使用了回调。然后，我们使用了承诺。现在，我们使用">
+<meta name="keywords" content="js javascript vue react vuex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript Promise async await 介绍">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/index.html">
+<meta property="og:site_name" content="Meoworu">
+<meta property="og:description" content="JavaScript Promise async await 介绍                                                                                             image              对于异步处理JavaScript从未如此简单。有一段时间，我们使用了回调。然后，我们使用了承诺。现在，我们使用">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/9d391ad63de00cfb6d2fe6c5740d93c16129cba676ca1c883062fbe3c11f9e0c55fc340205b7d904533c1d661b71d442?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=TRAVELLERS%20DESERT.jpg&size=750">
+<meta property="og:updated_time" content="2019-05-26T15:10:56.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript Promise async await 介绍">
+<meta name="twitter:description" content="JavaScript Promise async await 介绍                                                                                             image              对于异步处理JavaScript从未如此简单。有一段时间，我们使用了回调。然后，我们使用了承诺。现在，我们使用">
+<meta name="twitter:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/9d391ad63de00cfb6d2fe6c5740d93c16129cba676ca1c883062fbe3c11f9e0c55fc340205b7d904533c1d661b71d442?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=TRAVELLERS%20DESERT.jpg&size=750">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Meoworu</h5>
+          <a href="mailto:007xiangye@gmail.com" title="007xiangye@gmail.com" class="mail">007xiangye@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Meoworu" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://twitter.com/meoworu" target="_blank">
+                <i class="icon icon-lg icon-twitter"></i>
+                Twitter
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JavaScript Promise async await 介绍</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JavaScript Promise async await 介绍</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-26T14:35:43.000Z" itemprop="datePublished" class="page-time">
+  2019-05-26
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#JavaScript-Promise-async-await-介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">JavaScript Promise async await 介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#异步功能"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">异步功能</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#异步函数总是返回promise"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">异步函数总是返回promise</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#await关键字"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">await关键字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#处理错误"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">处理错误</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-JavaScript-Promise-async-await-介绍" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JavaScript Promise async await 介绍</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-26 22:35:43" datetime="2019-05-26T14:35:43.000Z" itemprop="datePublished">2019-05-26</time>
+
+            
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="JavaScript-Promise-async-await-介绍"><a href="#JavaScript-Promise-async-await-介绍" class="headerlink" title="JavaScript Promise async await 介绍"></a>JavaScript Promise async await 介绍</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/9d391ad63de00cfb6d2fe6c5740d93c16129cba676ca1c883062fbe3c11f9e0c55fc340205b7d904533c1d661b71d442?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=TRAVELLERS%20DESERT.jpg&size=750" alt="image" title>
+                </div>
+                <div class="image-caption">image</div>
+            </figure>
+<p>对于异步处理JavaScript从未如此简单。有一段时间，我们使用了回调。然后，我们使用了承诺。现在，我们使用async…await。接下来我把这种方式代称为异步函数</p>
+<h2 id="异步功能"><a href="#异步功能" class="headerlink" title="异步功能"></a>异步功能</h2><p>异步函数包含async关键字。您可以在正常的函数声明中使用它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">async function functionName（arguments）&#123; </span><br><span class="line">//做一些异步的事情</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>您也可以在箭头功能中使用它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const functionName = async（arguments）=&gt; &#123; </span><br><span class="line">//做一些异步的事情</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="异步函数总是返回promise"><a href="#异步函数总是返回promise" class="headerlink" title="异步函数总是返回promise"></a>异步函数总是返回promise</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const getOne = async _ =&gt; &#123; </span><br><span class="line">    return 1 </span><br><span class="line">&#125;</span><br><span class="line">const promise = getOne（）</span><br><span class="line">promise.toString() //&quot;[object Promise]&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="await关键字"><a href="#await关键字" class="headerlink" title="await关键字"></a>await关键字</h2><p>await 用于处理处理等待返回的结果，如下图所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const getOne = async () =&gt; &#123; </span><br><span class="line">    return 1 </span><br><span class="line">&#125;</span><br><span class="line">getOne().then（</span><br><span class="line">    value =&gt; &#123; </span><br><span class="line">        console.log（value）// 1 </span><br><span class="line">&#125;）</span><br></pre></td></tr></table></figure>
+<p>该await关键字可以等待解决的promise。一旦解决了promise，它就会返回传递给then调用的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const test = async _ =&gt; &#123; </span><br><span class="line">    const one = await getOne（）    </span><br><span class="line">    console.log（one）// 1 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="处理错误"><a href="#处理错误" class="headerlink" title="处理错误"></a>处理错误</h2><p>如果一个promise会导致错误，你可以通过catch调用来处理它，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const getOne = async（success = true）=&gt; &#123; </span><br><span class="line">    if（success）return 1 </span><br><span class="line">    throw new Error（&apos;Failure！&apos;）</span><br><span class="line">&#125;</span><br><span class="line">getOne（false）</span><br><span class="line">.catch（error =&gt; console.log（error））//失败！</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpeg" alt="Meoworu">
+            Meoworu
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/&title=《JavaScript Promise async await 介绍》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/&title=《JavaScript Promise async await 介绍》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JavaScript Promise async await 介绍》 — Meoworu&url=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/26/ES10功能完整指南/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ES10功能完整指南</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: '5d2d12e3fa40f96d6924',
+          clientSecret: '2bf71327a134f3db135af401a4a89af04766922d',
+          repo: 'meoworu.github.io',
+          owner: 'Meoworu',
+          admin: ['Meoworu'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢🙏🙏🙏
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpeg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpeg" data-alipay="/img/alipay.jpeg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <!-- <footer class="footer">
+    <div class="bottom">
+        <p><span>Meoworu &copy; 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer> -->
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/&title=《JavaScript Promise async await 介绍》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/&title=《JavaScript Promise async await 介绍》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JavaScript Promise async await 介绍》 — Meoworu&url=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/05/26/JavaScript-Promise-async-await-介绍/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
