@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?afdab76bce7d1c3e421ae7aeee6614da"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>如何设计一个webpack插件 | Meoworu | 前端小白</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#333">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="如何设计一个webpack插件？                                                                                             From Flickr              安装webpack首先我们创建一个文件夹webpack-plugin，执行： 12npm initnpm install webpa">
+<meta name="keywords" content="js javascript vue react vuex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何设计一个webpack插件">
+<meta property="og:url" content="http://yoursite.com/2019/05/30/如何设计一个webpack插件/index.html">
+<meta property="og:site_name" content="Meoworu">
+<meta property="og:description" content="如何设计一个webpack插件？                                                                                             From Flickr              安装webpack首先我们创建一个文件夹webpack-plugin，执行： 12npm initnpm install webpa">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/e238fd962226252bb627ff2e2f37c3826e877cfa23c5f15a58161993e853c402a1336b231c904262eefff203f06b12f4?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=IMG_2311.jpg&size=750">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/38bbf9fb583f520c506444f6c4ecfd6fb6ad3f625d159fc4dba5f468bcc94bd8de80b700bc19adee56eeb783b5e37f8e?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=WechatIMG12.png&size=750">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/eaf6517df34ebbec9af94ac09ba5a8629203f340d554c0808783773d388cd8bad770b92b5553f4cf762f4111ee26869d?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=WechatIMG184.png&size=750">
+<meta property="og:updated_time" content="2019-05-30T09:50:37.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何设计一个webpack插件">
+<meta name="twitter:description" content="如何设计一个webpack插件？                                                                                             From Flickr              安装webpack首先我们创建一个文件夹webpack-plugin，执行： 12npm initnpm install webpa">
+<meta name="twitter:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/e238fd962226252bb627ff2e2f37c3826e877cfa23c5f15a58161993e853c402a1336b231c904262eefff203f06b12f4?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=IMG_2311.jpg&size=750">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Meoworu</h5>
+          <a href="mailto:007xiangye@gmail.com" title="007xiangye@gmail.com" class="mail">007xiangye@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Meoworu" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://twitter.com/meoworu" target="_blank">
+                <i class="icon icon-lg icon-twitter"></i>
+                Twitter
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">如何设计一个webpack插件</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">如何设计一个webpack插件</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-30T09:50:29.000Z" itemprop="datePublished" class="page-time">
+  2019-05-30
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#如何设计一个webpack插件？"><span class="post-toc-number">1.</span> <span class="post-toc-text">如何设计一个webpack插件？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装webpack"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">安装webpack</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装webpcak-dev-server"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">安装webpcak-dev-server</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建webpack-config-js"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">创建webpack.config.js</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结构目录"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">结构目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编写一个插件"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">编写一个插件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建插件"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">创建插件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Compiler-和-Compilation"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">Compiler 和 Compilation</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#详解Compiler"><span class="post-toc-number">1.7.1.</span> <span class="post-toc-text">详解Compiler</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#编译器钩子"><span class="post-toc-number">1.7.1.1.</span> <span class="post-toc-text">编译器钩子</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#监听"><span class="post-toc-number">1.7.1.2.</span> <span class="post-toc-text">监听</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#勾子函数"><span class="post-toc-number">1.7.1.3.</span> <span class="post-toc-text">勾子函数</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#详解Compiler-1"><span class="post-toc-number">1.7.2.</span> <span class="post-toc-text">详解Compiler</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Compiler介绍"><span class="post-toc-number">1.7.2.1.</span> <span class="post-toc-text">Compiler介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#调用勾子函数"><span class="post-toc-number">1.7.2.2.</span> <span class="post-toc-text">调用勾子函数</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装插件"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">安装插件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-如何设计一个webpack插件" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">如何设计一个webpack插件</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-30 17:50:29" datetime="2019-05-30T09:50:29.000Z" itemprop="datePublished">2019-05-30</time>
+
+            
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="如何设计一个webpack插件？"><a href="#如何设计一个webpack插件？" class="headerlink" title="如何设计一个webpack插件？"></a>如何设计一个webpack插件？</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/e238fd962226252bb627ff2e2f37c3826e877cfa23c5f15a58161993e853c402a1336b231c904262eefff203f06b12f4?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=IMG_2311.jpg&size=750" alt="From Flickr" title>
+                </div>
+                <div class="image-caption">From Flickr</div>
+            </figure>
+<h2 id="安装webpack"><a href="#安装webpack" class="headerlink" title="安装webpack"></a>安装webpack</h2><p>首先我们创建一个文件夹webpack-plugin，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br><span class="line">npm install webpack --save-dev</span><br></pre></td></tr></table></figure>
+<p>如果你使用的是webpack 4+版本那么你还应该安装webpack-cli</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-cli</span><br></pre></td></tr></table></figure>
+<h2 id="安装webpcak-dev-server"><a href="#安装webpcak-dev-server" class="headerlink" title="安装webpcak-dev-server"></a>安装webpcak-dev-server</h2><p>这个插件类似一个web服务器，不过它多了许多配置，我们通过配置它可以为我们时时编译刷新网页，为我们的开发带来方便，提高开发效率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-dev-server</span><br></pre></td></tr></table></figure>
+<h2 id="创建webpack-config-js"><a href="#创建webpack-config-js" class="headerlink" title="创建webpack.config.js"></a>创建webpack.config.js</h2><p>该文件是webpack 在打包以及启动服务时候所依赖的配置文件，我们也可以更改它的名称，这取决于以运行命令时候所依赖的package.json 文件中”script’字段配置，如图：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/38bbf9fb583f520c506444f6c4ecfd6fb6ad3f625d159fc4dba5f468bcc94bd8de80b700bc19adee56eeb783b5e37f8e?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=WechatIMG12.png&size=750" alt="package.json" title>
+                </div>
+                <div class="image-caption">package.json</div>
+            </figure></p>
+<h2 id="结构目录"><a href="#结构目录" class="headerlink" title="结构目录"></a>结构目录</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/eaf6517df34ebbec9af94ac09ba5a8629203f340d554c0808783773d388cd8bad770b92b5553f4cf762f4111ee26869d?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=WechatIMG184.png&size=750" alt="结构目录" title>
+                </div>
+                <div class="image-caption">结构目录</div>
+            </figure>
+<h2 id="编写一个插件"><a href="#编写一个插件" class="headerlink" title="编写一个插件"></a>编写一个插件</h2><p>插件向第三方开发者提供了 webpack 引擎中完整的能力。使用阶段式的构建回调，开发者可以引入它们自己的行为到 webpack 构建流程中。创建插件比创建 loader 更加高级，因为你将需要理解一些 webpack 底层的内部特性来做相应的钩子，所以做好阅读一些源码的准备！</p>
+<h2 id="创建插件"><a href="#创建插件" class="headerlink" title="创建插件"></a>创建插件</h2><p>webpack 插件由以下组成：</p>
+<ul>
+<li>一个构造函数</li>
+<li>在插件函数的prototype（原型属性）上添加一个apply方法</li>
+<li>将插件函数实例挂载在webpack自身<a href="https://www.webpackjs.com/api/compiler-hooks/" target="_blank" rel="noopener">勾子函数</a>上</li>
+<li>处理 webpack 内部实例的特定数据</li>
+<li>功能完成后调用 webpack 提供的回调</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 创建一个插件类</span><br><span class="line">class Hello&#123;</span><br><span class="line">    constructor(option)&#123;</span><br><span class="line">        this.option = option</span><br><span class="line">    &#125;</span><br><span class="line">    // 在插件函数的 prototype 上定义一个 `apply` 方法。</span><br><span class="line">    apply(compiler)&#123;</span><br><span class="line">        // 指定一个挂载到 webpack 自身的事件钩子。</span><br><span class="line">        compiler.plugin(&apos;done&apos;,(compilation)=&gt;&#123;</span><br><span class="line">            console.log(&quot;我是hello插件&quot;);</span><br><span class="line"></span><br><span class="line">            // 功能完成后调用 webpack 提供的回调。</span><br><span class="line">            callback();</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = Hello;</span><br></pre></td></tr></table></figure>
+<h2 id="Compiler-和-Compilation"><a href="#Compiler-和-Compilation" class="headerlink" title="Compiler 和 Compilation"></a>Compiler 和 Compilation</h2><p>在插件开发中最重要的两个参数就是 compiler 和 compilation 对象。理解它们的角色是扩展 webpack 引擎重要的第一步。</p>
+<ul>
+<li><p>compiler 对象代表了完整的 webpack 环境配置。这个对象在启动 webpack 时被一次性建立，并配置好所有可操作的设置，包括 options，loader 和 plugin。当在 webpack 环境中应用一个插件时，插件将收到此 compiler 对象的引用。可以使用它来访问 webpack 的主环境。</p>
+</li>
+<li><p>compilation 对象代表了一次资源版本构建。当运行 webpack 开发环境中间件时，每当检测到一个文件变化，就会创建一个新的 compilation，从而生成一组新的编译资源。一个 compilation 对象表现了当前的模块资源、编译生成资源、变化的文件、以及被跟踪依赖的状态信息。compilation 对象也提供了很多关键时机的回调，以供插件做自定义处理时选择使用。</p>
+</li>
+</ul>
+<h3 id="详解Compiler"><a href="#详解Compiler" class="headerlink" title="详解Compiler"></a>详解Compiler</h3><h4 id="编译器钩子"><a href="#编译器钩子" class="headerlink" title="编译器钩子"></a>编译器钩子</h4><p>Compiler模块是主引擎，它使用通过CLI或Node API传递的所有选项创建编译实例。它扩展了 Tapable类以注册和调用插件。大多数面向用户的插件首先在Compiler内。该模块是公开的webpack.Compiler，可以直接使用。</p>
+<h4 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h4><p>Compiler监视文件系统和重新编译的文件改变。在观察模式中compiler会调用一些额外的事件如：watchRun，watchClose和invalid。这些事件通常应用于开发，webpack-dev-server就是一个典型的应用，我们在编写代码时候不用从新编译，webpack-dev-server会帮助我们时时编译。</p>
+<h4 id="勾子函数"><a href="#勾子函数" class="headerlink" title="勾子函数"></a>勾子函数</h4><ol>
+<li>entryOption</li>
+</ol>
+<ul>
+<li>同步勾子函数</li>
+<li>在处理了webpack选项的entry配置后调用。</li>
+<li>回调参数：context，entry<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compiler.hooks.entryOption.tap(&apos;MyPlugin&apos;, (context, entry) =&gt; &#123;</span><br><span class="line">  /* ... */</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="2">
+<li>afterPlugins</li>
+</ol>
+<ul>
+<li>同步函数</li>
+<li>在设置初始内部插件集后调用。</li>
+<li>回调参数： compiler</li>
+</ul>
+<p>简单介绍两个如果大家有兴趣可以访问<a href="https://webpack.js.org/api/compiler-hooks/#roo" target="_blank" rel="noopener">这里</a>去学习。</p>
+<h3 id="详解Compiler-1"><a href="#详解Compiler-1" class="headerlink" title="详解Compiler"></a>详解Compiler</h3><h4 id="Compiler介绍"><a href="#Compiler介绍" class="headerlink" title="Compiler介绍"></a>Compiler介绍</h4><p>该Compilation模块用于Compiler创建新的编译（或构建）。compilation实例有权访问所有的模块和它们的依赖）。它是应用程序依赖关系图中所有模块的文字汇编。在编译阶段，模块被加载，密封，优化，分块，散列和恢复。</p>
+<h4 id="调用勾子函数"><a href="#调用勾子函数" class="headerlink" title="调用勾子函数"></a>调用勾子函数</h4><p>Compilation和compiler 一样具有针对不同生命周期的很多勾子函数，使用方法也差不多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compilation.hooks.someHook.tap(/* ... */);</span><br></pre></td></tr></table></figure>
+<p>在这里针对compilation的勾子函数我们就不一一介绍啦，如果您有兴趣可以点击<a href="https://webpack.js.org/api/compilation-hooks/#root" target="_blank" rel="noopener">这里</a>进行学习</p>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// webpack.config.js</span><br><span class="line"></span><br><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const Hello = require(&apos;./plugin/hello.js&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  //...</span><br><span class="line">    plugins:[</span><br><span class="line">        new Hello()</span><br><span class="line">    ],</span><br><span class="line">    devServer: &#123;</span><br><span class="line">        contentBase: path.join(__dirname, &apos;dist&apos;),</span><br><span class="line">        compress: true,</span><br><span class="line">        port: 9000,</span><br><span class="line">        inline:false,</span><br><span class="line">        hot: true,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>命令行执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack-dev-server</span><br></pre></td></tr></table></figure>
+<p>你可以看到命令行在执行完编译后将会打印：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我是hello插件</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对于编写一个webpack插件，我们主要了解Compiler 和 Compilation他们的各种勾子函数，我们需要在什么时候做什么事，就清晰多了。谢谢。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpeg" alt="Meoworu">
+            Meoworu
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/05/30/如何设计一个webpack插件/&title=《如何设计一个webpack插件》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/05/30/如何设计一个webpack插件/&title=《如何设计一个webpack插件》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/05/30/如何设计一个webpack插件/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《如何设计一个webpack插件》 — Meoworu&url=http://yoursite.com/2019/05/30/如何设计一个webpack插件/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/05/30/如何设计一个webpack插件/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/29/koa2相关讲解/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">koa2相关讲解</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: '5d2d12e3fa40f96d6924',
+          clientSecret: '2bf71327a134f3db135af401a4a89af04766922d',
+          repo: 'meoworu.github.io',
+          owner: 'Meoworu',
+          admin: ['Meoworu'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢🙏🙏🙏
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpeg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpeg" data-alipay="/img/alipay.jpeg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <!-- <footer class="footer">
+    <div class="bottom">
+        <p><span>Meoworu &copy; 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer> -->
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/05/30/如何设计一个webpack插件/&title=《如何设计一个webpack插件》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/05/30/如何设计一个webpack插件/&title=《如何设计一个webpack插件》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/05/30/如何设计一个webpack插件/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《如何设计一个webpack插件》 — Meoworu&url=http://yoursite.com/2019/05/30/如何设计一个webpack插件/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/05/30/如何设计一个webpack插件/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/05/30/如何设计一个webpack插件/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
