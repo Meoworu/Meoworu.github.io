@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?afdab76bce7d1c3e421ae7aeee6614da"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>call, apply, bind 实现与区别 | Meoworu | 前端小白</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#333">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。 thisthis是Javascript语言中的一个很常用的关键字，当一个函数被当作构造函数使用时其this指向其实例，当函数被一个对象">
+<meta name="keywords" content="js javascript vue react vuex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="call, apply, bind 实现与区别">
+<meta property="og:url" content="http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/index.html">
+<meta property="og:site_name" content="Meoworu">
+<meta property="og:description" content="call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。 thisthis是Javascript语言中的一个很常用的关键字，当一个函数被当作构造函数使用时其this指向其实例，当函数被一个对象">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/6536e65212cee7c1b704c144e5fbbff4fd1e7762a011fc1807476c4e9b5e8106652ebe859e0731fd87c1cbea7a0a7244?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-01%20%E4%B8%8B%E5%8D%883.41.51.png&size=750">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/737ed4bfb792633d5cc8bd70cff3bef2ef3264a5afc63c5ddea8bc8e8056ea2f50cf1921e396875a6f15a00c165f54bd?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=WechatIMG102.png&size=750">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/8226f9f0aeb6abeb176476f2c1b24e12dc36f7fda170bd3ba1432c6793f6889a6da355145c1a898954e2e3d0f0918572?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-01%20%E4%B8%8B%E5%8D%884.00.41.png&size=750">
+<meta property="og:updated_time" content="2019-06-02T11:01:16.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="call, apply, bind 实现与区别">
+<meta name="twitter:description" content="call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。 thisthis是Javascript语言中的一个很常用的关键字，当一个函数被当作构造函数使用时其this指向其实例，当函数被一个对象">
+<meta name="twitter:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/6536e65212cee7c1b704c144e5fbbff4fd1e7762a011fc1807476c4e9b5e8106652ebe859e0731fd87c1cbea7a0a7244?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-01%20%E4%B8%8B%E5%8D%883.41.51.png&size=750">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Meoworu</h5>
+          <a href="mailto:007xiangye@gmail.com" title="007xiangye@gmail.com" class="mail">007xiangye@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Meoworu" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://twitter.com/meoworu" target="_blank">
+                <i class="icon icon-lg icon-twitter"></i>
+                Twitter
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">call, apply, bind 实现与区别</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">call, apply, bind 实现与区别</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-02T11:00:49.000Z" itemprop="datePublished" class="page-time">
+  2019-06-02
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#call-apply-bind-实现与区别"><span class="post-toc-number">1.</span> <span class="post-toc-text">call, apply, bind 实现与区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#this"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">this</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#call"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">call</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#apply"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">apply</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#bind"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">bind</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-call-apply-bind-实现与区别" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">call, apply, bind 实现与区别</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-02 19:00:49" datetime="2019-06-02T11:00:49.000Z" itemprop="datePublished">2019-06-02</time>
+
+            
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="call-apply-bind-实现与区别"><a href="#call-apply-bind-实现与区别" class="headerlink" title="call, apply, bind 实现与区别"></a>call, apply, bind 实现与区别</h1><p>call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。</p>
+<h2 id="this"><a href="#this" class="headerlink" title="this"></a>this</h2><p>this是Javascript语言中的一个很常用的关键字，当一个函数被当作构造函数使用时其this指向其实例，当函数被一个对象调用并执行时候this指向调用者如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">    value:&apos;hello world&apos;,</span><br><span class="line">    showValue:()=&gt;&#123;</span><br><span class="line">        console.log(this.value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.showValue();// this指向obj</span><br></pre></td></tr></table></figure>
+<p>在这里我们不过多的讲this的指向问题，接下来我们来看在现实撸代码过程中是不是有一种这样的需求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">    value:&apos;hello&apos;,</span><br><span class="line">    showValue:function()&#123;//     注意此处不能用箭头函数会修改this指向</span><br><span class="line">        console.log(this.value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let openObj = &#123;</span><br><span class="line">    value:&apos;world&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>openObj也想能像obj对象那样调用某个方法展示value，有的小伙伴就会想，那我们为openObj添加一个showValue的方法不就好啦，没错可以这样做完全没问题。</p>
+<p>不过我们还有更好的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.showValue.call(openObj); // world</span><br></pre></td></tr></table></figure>
+<h2 id="call"><a href="#call" class="headerlink" title="call"></a>call</h2><p>我们来思考一下当我们没使用call对openObj进行处理时候他是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let openObj = &#123;</span><br><span class="line">    value:&apos;world&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过我们将call方法指行之后，openObj就可以使用showValue方法啦，试着这样设想一下，当我们使用call方法时候实际上是在openObj对象上添加啦一个showValue方法，用过方法之后我们在将方法删除，根据这样的思路我先来构造一下openObj在传入call方法之后它变成了什么样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">openObj = &#123;</span><br><span class="line">    value:&apos;world&apos;,</span><br><span class="line">    // 多出一个showValue方法</span><br><span class="line">    showValue()&#123;</span><br><span class="line">        console.log(this.value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后openObjd调用完成方法之后，我们将showValue方法删除，我们一起来设计一下这个call函数</p>
+<ol>
+<li>因为call方法是函数的属性方法所以一定在Function构造函数对prototype（圆形上），我们取名为call2：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.call2 = function(target)&#123;</span><br><span class="line">    //  实现.....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>call方法会在传入的对象身上生成一个，调用call函数的方法，小伙伴们还记得谁调用了call方法吗？是它（showValue），是openObj没有却想要使用的那个方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.showValue.call(openObj); // world</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>现在我们在call2函数内部为传入的对像生成一个和调用call2方法一摸一样的方法。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.call2 = function(target)&#123;</span><br><span class="line">    target.fn = this //此时的this指向调用call方法的方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候我们来执行一下这段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.showValue.call2(openObj); // 注意我们此时改成了call2</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/6536e65212cee7c1b704c144e5fbbff4fd1e7762a011fc1807476c4e9b5e8106652ebe859e0731fd87c1cbea7a0a7244?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-01%20%E4%B8%8B%E5%8D%883.41.51.png&size=750" alt="image" title>
+                </div>
+                <div class="image-caption">image</div>
+            </figure>
+<ol start="5">
+<li>到现在我们已经离成功不远了，因为我们在调用一下这个新增的方法就ok，最后的任务是删除：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.call2 = function(target)&#123;</span><br><span class="line">    target.fn = this;//此时的this指向调用call方法的方法</span><br><span class="line">    target.fn();</span><br><span class="line">    delete obj.fn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时我们在调用一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.showValue.call2(openObj); // 注意我们此时改成了call2</span><br></pre></td></tr></table></figure></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/737ed4bfb792633d5cc8bd70cff3bef2ef3264a5afc63c5ddea8bc8e8056ea2f50cf1921e396875a6f15a00c165f54bd?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=WechatIMG102.png&size=750" alt="image" title>
+                </div>
+                <div class="image-caption">image</div>
+            </figure>
+<p>这样我们就完成啦call方法吗，还远远不够，因为call方法还可以传入一系列参数,最主要我们还不知道要传入的参数个数。所以要实现这样的call2方法以达到可以n个传参数的需求，我们引出一个函数环境量：arguments 实际参数列表：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/8226f9f0aeb6abeb176476f2c1b24e12dc36f7fda170bd3ba1432c6793f6889a6da355145c1a898954e2e3d0f0918572?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-01%20%E4%B8%8B%E5%8D%884.00.41.png&size=750" alt="image" title>
+                </div>
+                <div class="image-caption">image</div>
+            </figure><br>如图我们在使用call2方法时候我们传入包括openObj一共4个参数都储存在arguments列表里面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[].constructor === Array</span><br><span class="line">// true</span><br><span class="line">arguments.constructor === Array</span><br><span class="line">// false</span><br></pre></td></tr></table></figure>
+<p>注意：arguments不是一个数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.call2 = function(target)&#123;</span><br><span class="line">    target.fn = this;//此时的this指向调用call方法的方法</span><br><span class="line">    let args = [];</span><br><span class="line">    for(let i = 1; i &lt; arguments.length; i++)&#123;</span><br><span class="line">        args.push(arguments[i])</span><br><span class="line">    &#125;</span><br><span class="line">    target.fn(...args);</span><br><span class="line">    delete target.fn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们创建一个数组args来存放参数，然后用join方法将其转化为字符串然后用eval()将字符串转化为js语法并执行，最后将其删除。</p>
+<h2 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h2><p>我们来回想一下apply与call的功能差不多只是apply传入的参数是一个数组，下面我们对call进行修改让它成为apply。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.apply2 = function(target)&#123;</span><br><span class="line">    target.fn = this;//此时的this指向调用call方法的方法</span><br><span class="line">    let args = [];</span><br><span class="line">    for(let i = 1; i &lt; arguments.length; i++)&#123;</span><br><span class="line">        args.push(arguments[i])</span><br><span class="line">    &#125;</span><br><span class="line">    target.fn([...args]);</span><br><span class="line">    delete target.fn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p>bind()方法和call方法的不同点就是，bind没有规定固定的参数个数，数据类型，在传入参数后返回一个新的函数，必须需要调用才能执行，不会立即执行，而call会立即执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.showValue.bind(openObj)();</span><br></pre></td></tr></table></figure>
+<p>我们先来看一下bind方法的一些奇特之处</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">    value:10,</span><br><span class="line">    showValue:function(args)&#123;</span><br><span class="line">        console.log(this.value + args[0] + args[1])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let openObj = &#123;</span><br><span class="line">    value:&apos;world&apos;</span><br><span class="line">&#125;</span><br><span class="line">obj.showValue.bind(openObj,[1,2]);// 10+1+2 = 13</span><br><span class="line">obj.showValue.bind(openObj)(8, 9);// 10+8+9 = 27</span><br><span class="line">obj.showValue.bind(openObj,[1,2])(8, 9);// 10+1+2 = 13</span><br></pre></td></tr></table></figure>
+<p>通过上面的输出结果我们不难发现bind当首次传入参数时候以首次参数稳准，执行时候再次传入参数则不起作用，如果首次没有传入参数则执行时候传入参数才会起作用，我们咱看一下这种情况下使用bind</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function introduce() &#123;</span><br><span class="line">    console.log(`我叫$&#123;this.name&#125;我今年$&#123;this.age&#125;岁`);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let liYing = &#123;</span><br><span class="line">    name : &apos;赵丽颖&apos;,</span><br><span class="line">    age : 18</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let liYingIntroduce = introduce.bind(liYing);</span><br><span class="line"></span><br><span class="line">let liYingIntroduce();</span><br><span class="line">// 我叫赵丽颖我今年18岁</span><br></pre></td></tr></table></figure>
+<p>我们要实现一个这样的bind方法，生成一个固定this指向传入对参数对函数，让我来尝试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.bind2 = function()&#123;</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们把当前调用bind的函数返回去，我们来试验一下能否实现bind效果，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let liYingIntroduce = introduce.bind2(liYing);</span><br><span class="line"></span><br><span class="line">let liYingIntroduce();</span><br><span class="line">// 我叫undefined我今年undefined岁</span><br></pre></td></tr></table></figure>
+<p>我们要获取的name，age 都变成了undefined，可见我们执行时候liYingIntorduce函数的this指向了window，接下来我们这样来改一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.bind2 = function()&#123;</span><br><span class="line">    let target = [].slice.call(arguments, 0, 1);</span><br><span class="line">    let self = this;</span><br><span class="line">    let fn = function()&#123;</span><br><span class="line">        self.call(target);</span><br><span class="line">    &#125;</span><br><span class="line">    return fn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let liYingIntroduce = introduce.bind2(liYing);</span><br><span class="line"></span><br><span class="line">let liYingIntroduce();</span><br><span class="line">// 我叫赵丽颖我今年18岁</span><br></pre></td></tr></table></figure></p>
+<p>我们返回一个函数，函数内部用call将要调用的方法的this指向bind传入的第一次参数，也就是this要指向的对象。就成功实现生成一个this固定指向的bind函数。到这里就结速了吗？还远远不够。我们来看一下这种情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;</span><br><span class="line">    constructor(name, age)&#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Man &#123;</span><br><span class="line">    constructor(options)&#123;</span><br><span class="line">        this.options = options;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let man = new Man()</span><br><span class="line"></span><br><span class="line">let People = Person.bind(man);</span><br><span class="line">let p = new People(&apos;赵丽颖&apos;, 18);</span><br><span class="line">// p : Person &#123;name: &quot;赵丽颖&quot;, age: 18&#125;</span><br></pre></td></tr></table></figure>
+<p>我们发现当People,被创建出来的函数当this并没有被更改，我们来这样修改bind2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.bind2 = function(target)&#123;</span><br><span class="line">    let self = this;</span><br><span class="line">    let args = [];</span><br><span class="line">    for(let i = 1; i &lt; arguments.length; i++)&#123;</span><br><span class="line">        args.push(arguments[i])</span><br><span class="line">    &#125;</span><br><span class="line">    let fn = function()&#123;</span><br><span class="line">        self.call(this, ...args)</span><br><span class="line">    &#125;</span><br><span class="line">    fn.prototype = self.prototype;</span><br><span class="line">    return fn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们这样更改bind2函数时候，可以满足我们实现一个可执行当构造函数，来往让我们对比一下这两个分别满足不同需求的构造函数的不同点。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 当普通函数进行执行</span><br><span class="line">Function.prototype.bind2 = function(target)&#123;</span><br><span class="line">    let self = this;</span><br><span class="line">    let args = [];</span><br><span class="line">    for(let i = 1; i &lt; arguments.length; i++)&#123;</span><br><span class="line">        args.push(arguments[i])</span><br><span class="line">    &#125;</span><br><span class="line">    let fn = function()&#123;</span><br><span class="line">        self.call(target, ...args);</span><br><span class="line">    &#125;</span><br><span class="line">    return fn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 当构造函数使用</span><br><span class="line">Function.prototype.bind2 = function(target)&#123;</span><br><span class="line">    let self = this;</span><br><span class="line">    let args = [];</span><br><span class="line">    for(let i = 1; i &lt; arguments.length; i++)&#123;</span><br><span class="line">        args.push(arguments[i])</span><br><span class="line">    &#125;</span><br><span class="line">    let fn = function()&#123;</span><br><span class="line">        self.call(this, ...args)</span><br><span class="line">    &#125;</span><br><span class="line">    fn.prototype = self.prototype;</span><br><span class="line">    return fn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这时候我们只要判断一下什么时候我们当构造函数和new配合使用，什么时候当普通函数执行就完善了整个bind方法。接下来我们将实现这样的一个判断，让我们来看一下以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Person(n,a)&#123;   </span><br><span class="line">    this.name = n;</span><br><span class="line">    this.age = a;</span><br><span class="line">    if(this instanceof Person)&#123;</span><br><span class="line">        alert(&apos;new调用&apos;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        alert(&apos;函数调用&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">var p = new Person(&apos;jack&apos;,30); // --&gt; new调用</span><br><span class="line">Person(); // --&gt; 函数调用</span><br></pre></td></tr></table></figure>
+<p>我们知道当一个函数被当做构造函数使用时候，this 指向该构造函数当实例，所以借着这个思路我们来更改一下我们bind2，让其完全实现bind方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.bind2 = function(target)&#123;</span><br><span class="line">    let self = this;</span><br><span class="line">    let args = [];</span><br><span class="line">    for(let i = 1; i &lt; arguments.length; i++)&#123;</span><br><span class="line">        args.push(arguments[i])</span><br><span class="line">    &#125;</span><br><span class="line">    let fn = function()&#123;</span><br><span class="line">        if(this instanceof self)&#123;</span><br><span class="line">            self.call(this, ...args);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            self.call(target, ...args);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    fn.prototype = self.prototype;</span><br><span class="line">    return fn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>call，apply，bind函数都是函数的方法，他们都可以改变一个函数的this指向，call和apply传参数形势不同，且他们都是立即执行，而bind对所传参数没有要求，只不过它不立即执行，而是生成一个新函数只个函数的原型等于调用bind函数的那个函数的原型，且可以分别从两种情况下生成函数，一种是当最普通函数执行，一种是当作构造函数执行。谢谢！</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpeg" alt="Meoworu">
+            Meoworu
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/&title=《call, apply, bind 实现与区别》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/&title=《call, apply, bind 实现与区别》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《call, apply, bind 实现与区别》 — Meoworu&url=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/30/如何设计一个webpack插件/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">如何设计一个webpack插件</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: '5d2d12e3fa40f96d6924',
+          clientSecret: '2bf71327a134f3db135af401a4a89af04766922d',
+          repo: 'meoworu.github.io',
+          owner: 'Meoworu',
+          admin: ['Meoworu'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢🙏🙏🙏
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpeg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpeg" data-alipay="/img/alipay.jpeg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <!-- <footer class="footer">
+    <div class="bottom">
+        <p><span>Meoworu &copy; 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer> -->
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/&title=《call, apply, bind 实现与区别》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/&title=《call, apply, bind 实现与区别》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《call, apply, bind 实现与区别》 — Meoworu&url=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
