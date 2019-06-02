@@ -26,22 +26,23 @@
     
     
     <meta name="keywords" content>
-    <meta name="description" content="call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。 thisthis是Javascript语言中的一个很常用的关键字，当一个函数被当作构造函数使用时其this指向其实例，当函数被一个对象">
+    <meta name="description" content="javascript              call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的t">
 <meta name="keywords" content="js javascript vue react vuex">
 <meta property="og:type" content="article">
 <meta property="og:title" content="call, apply, bind 实现与区别">
 <meta property="og:url" content="http://yoursite.com/2019/06/02/call-apply-bind-实现与区别/index.html">
 <meta property="og:site_name" content="Meoworu">
-<meta property="og:description" content="call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。 thisthis是Javascript语言中的一个很常用的关键字，当一个函数被当作构造函数使用时其this指向其实例，当函数被一个对象">
+<meta property="og:description" content="javascript              call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的t">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/c65c45e49bd9c7ee90309ded6491c94d5f50439db6c3be1965dc5b7415f57963c4b77cda878626985948a09afb8d3f5c?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=Wake%20Up%20Call.jpg&size=750">
 <meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/6536e65212cee7c1b704c144e5fbbff4fd1e7762a011fc1807476c4e9b5e8106652ebe859e0731fd87c1cbea7a0a7244?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-01%20%E4%B8%8B%E5%8D%883.41.51.png&size=750">
 <meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/737ed4bfb792633d5cc8bd70cff3bef2ef3264a5afc63c5ddea8bc8e8056ea2f50cf1921e396875a6f15a00c165f54bd?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=WechatIMG102.png&size=750">
 <meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/8226f9f0aeb6abeb176476f2c1b24e12dc36f7fda170bd3ba1432c6793f6889a6da355145c1a898954e2e3d0f0918572?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-01%20%E4%B8%8B%E5%8D%884.00.41.png&size=750">
-<meta property="og:updated_time" content="2019-06-02T11:01:16.388Z">
+<meta property="og:updated_time" content="2019-06-02T11:11:01.868Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="call, apply, bind 实现与区别">
-<meta name="twitter:description" content="call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。 thisthis是Javascript语言中的一个很常用的关键字，当一个函数被当作构造函数使用时其this指向其实例，当函数被一个对象">
-<meta name="twitter:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/6536e65212cee7c1b704c144e5fbbff4fd1e7762a011fc1807476c4e9b5e8106652ebe859e0731fd87c1cbea7a0a7244?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-06-01%20%E4%B8%8B%E5%8D%883.41.51.png&size=750">
+<meta name="twitter:description" content="javascript              call, apply, bind 实现与区别call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的t">
+<meta name="twitter:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/c65c45e49bd9c7ee90309ded6491c94d5f50439db6c3be1965dc5b7415f57963c4b77cda878626985948a09afb8d3f5c?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=Wake%20Up%20Call.jpg&size=750">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -177,7 +178,14 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="call-apply-bind-实现与区别"><a href="#call-apply-bind-实现与区别" class="headerlink" title="call, apply, bind 实现与区别"></a>call, apply, bind 实现与区别</h1><p>call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。</p>
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/c65c45e49bd9c7ee90309ded6491c94d5f50439db6c3be1965dc5b7415f57963c4b77cda878626985948a09afb8d3f5c?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=Wake%20Up%20Call.jpg&size=750" alt="javascript" title>
+                </div>
+                <div class="image-caption">javascript</div>
+            </figure>
+<h1 id="call-apply-bind-实现与区别"><a href="#call-apply-bind-实现与区别" class="headerlink" title="call, apply, bind 实现与区别"></a>call, apply, bind 实现与区别</h1><p>call, apply, bind 它们是javascript语言中很常见的函数属性，我们从通常用它们来改变一个函数的this指向，并且传递参数很有用处。下面我们来看一下怎样去实现一个这样能改变函数this指向的函数。</p>
 <h2 id="this"><a href="#this" class="headerlink" title="this"></a>this</h2><p>this是Javascript语言中的一个很常用的关键字，当一个函数被当作构造函数使用时其this指向其实例，当函数被一个对象调用并执行时候this指向调用者如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">    value:&apos;hello world&apos;,</span><br><span class="line">    showValue:()=&gt;&#123;</span><br><span class="line">        console.log(this.value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.showValue();// this指向obj</span><br></pre></td></tr></table></figure>
 <p>在这里我们不过多的讲this的指向问题，接下来我们来看在现实撸代码过程中是不是有一种这样的需求：</p>
