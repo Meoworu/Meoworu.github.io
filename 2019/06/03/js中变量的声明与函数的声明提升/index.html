@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?afdab76bce7d1c3e421ae7aeee6614da"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>js中变量的声明与函数的声明提升 | Meoworu | 前端小白</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#333">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="image              js中变量的声明与函数的声明提升说到javascript变量的声明使用还真的和其他一下语言（java，c++）有一定的区别。主要因为js在执行过程中存在预编译过程，这个过程很独">
+<meta name="keywords" content="js javascript vue react vuex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js中变量的声明与函数的声明提升">
+<meta property="og:url" content="http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/index.html">
+<meta property="og:site_name" content="Meoworu">
+<meta property="og:description" content="image              js中变量的声明与函数的声明提升说到javascript变量的声明使用还真的和其他一下语言（java，c++）有一定的区别。主要因为js在执行过程中存在预编译过程，这个过程很独">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/ca5d118ac19fdf1d41987a37807b18e9b5f609e2a0a5eb37bba3240cb6a01490eb5a5757ade0335b49278fa0fa87d306?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=Great%20Smoky%20Mountains%2C%20U.S..jpg&size=750">
+<meta property="og:updated_time" content="2019-06-03T06:46:58.349Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js中变量的声明与函数的声明提升">
+<meta name="twitter:description" content="image              js中变量的声明与函数的声明提升说到javascript变量的声明使用还真的和其他一下语言（java，c++）有一定的区别。主要因为js在执行过程中存在预编译过程，这个过程很独">
+<meta name="twitter:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/ca5d118ac19fdf1d41987a37807b18e9b5f609e2a0a5eb37bba3240cb6a01490eb5a5757ade0335b49278fa0fa87d306?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=Great%20Smoky%20Mountains%2C%20U.S..jpg&size=750">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Meoworu</h5>
+          <a href="mailto:007xiangye@gmail.com" title="007xiangye@gmail.com" class="mail">007xiangye@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Meoworu" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://twitter.com/meoworu" target="_blank">
+                <i class="icon icon-lg icon-twitter"></i>
+                Twitter
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">js中变量的声明与函数的声明提升</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">js中变量的声明与函数的声明提升</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-03T06:46:37.000Z" itemprop="datePublished" class="page-time">
+  2019-06-03
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#js中变量的声明与函数的声明提升"><span class="post-toc-number">1.</span> <span class="post-toc-text">js中变量的声明与函数的声明提升</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#变量的声明提升"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">变量的声明提升</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#函数的声明提升"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">函数的声明提升</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-js中变量的声明与函数的声明提升" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">js中变量的声明与函数的声明提升</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-03 14:46:37" datetime="2019-06-03T06:46:37.000Z" itemprop="datePublished">2019-06-03</time>
+
+            
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/ca5d118ac19fdf1d41987a37807b18e9b5f609e2a0a5eb37bba3240cb6a01490eb5a5757ade0335b49278fa0fa87d306?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=Great%20Smoky%20Mountains%2C%20U.S..jpg&size=750" alt="image" title>
+                </div>
+                <div class="image-caption">image</div>
+            </figure>
+<h1 id="js中变量的声明与函数的声明提升"><a href="#js中变量的声明与函数的声明提升" class="headerlink" title="js中变量的声明与函数的声明提升"></a>js中变量的声明与函数的声明提升</h1><p>说到javascript变量的声明使用还真的和其他一下语言（java，c++）有一定的区别。主要因为js在执行过程中存在预编译过程，这个过程很独特，也很坑，接下来我们来看一下在js中变量的声明，赋值，函数的声明，赋值以及使用var，let，const，进行变量声明有什么差异。</p>
+<h2 id="变量的声明提升"><a href="#变量的声明提升" class="headerlink" title="变量的声明提升"></a>变量的声明提升</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(a); // undefined</span><br><span class="line"></span><br><span class="line">var a = &apos;hello world&apos;</span><br></pre></td></tr></table></figure>
+<p>js引擎将这段代码预编译成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a;</span><br><span class="line"></span><br><span class="line">console.log(a);</span><br><span class="line"></span><br><span class="line">a = &apos;hello world&apos;</span><br></pre></td></tr></table></figure>
+<p>我们在看一下这段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var a = 3;</span><br><span class="line"></span><br><span class="line">(function()&#123;</span><br><span class="line">   console.log(a); // undefined</span><br><span class="line">   </span><br><span class="line">   var a = 5;</span><br><span class="line">&#125;())</span><br></pre></td></tr></table></figure>
+<p>js引擎将这段代码预编译成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var a = 3;</span><br><span class="line"></span><br><span class="line">(function()&#123;</span><br><span class="line">    var a</span><br><span class="line">    </span><br><span class="line">    console.log(a); // undefined</span><br><span class="line">    </span><br><span class="line">    a = 5;</span><br><span class="line">&#125;())</span><br></pre></td></tr></table></figure>
+<p>通过这两段代码我们不难发现，js引擎在预编译js时候，将变量的（var）声明提到了该变量作用域的最顶端执行，注意：这里提到顶端仅仅是声明（var ‘变量名称’）这个过程，赋值的过程并没有被提升。让我们来看一下let：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(a); // ReferenceError: a is not defined</span><br><span class="line"></span><br><span class="line">let a = &apos;hello world&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let a = 3;</span><br><span class="line"></span><br><span class="line">(function()&#123;</span><br><span class="line"></span><br><span class="line">   console.log(a); // ReferenceError: a is not defined</span><br><span class="line">   </span><br><span class="line">   let a = 5;</span><br><span class="line">&#125;())</span><br></pre></td></tr></table></figure>
+<p>可见let声明变量并不会得到提升。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a = 3;</span><br><span class="line"></span><br><span class="line">var a;</span><br><span class="line"></span><br><span class="line">console.log(a) // 3</span><br></pre></td></tr></table></figure>
+<p>重复声明不会报错但没有用当一次声明处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = 3;</span><br><span class="line"></span><br><span class="line">let a; // SyntaxError: Identifier &apos;a&apos; has already been declared</span><br><span class="line"></span><br><span class="line">console.log(a) // 3</span><br></pre></td></tr></table></figure></p>
+<p>使用let 重复声明会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var a = 3;</span><br><span class="line"></span><br><span class="line">(function(a)&#123;</span><br><span class="line"></span><br><span class="line">    console.log(a); // 3</span><br><span class="line"></span><br><span class="line">    var a = 5</span><br><span class="line">    </span><br><span class="line">    console.log(a);// 5</span><br><span class="line"></span><br><span class="line">&#125;(a))</span><br><span class="line"></span><br><span class="line">console.log(a) // 3</span><br></pre></td></tr></table></figure>
+<p>控制台输出的是3，5，3。首先基本数据类型穿的参数遵循值的拷贝，所以外面的a值始终不变，函数形势参数相当于在函数内部声明一次，上面这段代码在预编译阶段被处理成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var a = 3;</span><br><span class="line"></span><br><span class="line">(function(a)&#123;</span><br><span class="line">    var a = a;</span><br><span class="line"></span><br><span class="line">    var a; // var重复声明无效</span><br><span class="line"></span><br><span class="line">    console.log(a); </span><br><span class="line"></span><br><span class="line">    a = 5</span><br><span class="line">    </span><br><span class="line">    console.log(a);</span><br><span class="line"></span><br><span class="line">&#125;(a))</span><br><span class="line"></span><br><span class="line">console.log(a)</span><br></pre></td></tr></table></figure>
+<p>小伙伴们一定想看以下用let会是什么样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var a = 3;</span><br><span class="line"></span><br><span class="line">(function(a)&#123;</span><br><span class="line"></span><br><span class="line">    console.log(a); // 3</span><br><span class="line"></span><br><span class="line">    let a = 5 // Identifier &apos;a&apos; has already been declared</span><br><span class="line">    </span><br><span class="line">    console.log(a);// 5</span><br><span class="line"></span><br><span class="line">&#125;(a))</span><br><span class="line"></span><br><span class="line">console.log(a) // 3</span><br></pre></td></tr></table></figure>
+<p>不出我们所料，重复定义直接报错，这这更佳证实了函数参数咱函数内部重新定义的理论。const 和let一样不会提升变量的声明，只是const声明变量修改就报错。</p>
+<h2 id="函数的声明提升"><a href="#函数的声明提升" class="headerlink" title="函数的声明提升"></a>函数的声明提升</h2><p>定义函数有多种方式我们来分析最常用的两种：</p>
+<ul>
+<li><p>函数是声明（用function）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function a() &#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字面量形势声明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var a = function()&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我们来看一下这段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a();// 1</span><br><span class="line"></span><br><span class="line">function a()&#123;console.log(1)&#125;</span><br><span class="line"></span><br><span class="line">a();// 1</span><br><span class="line"></span><br><span class="line">var a  = function ()&#123;console.log(2)&#125;</span><br><span class="line"></span><br><span class="line">a();// 2</span><br></pre></td></tr></table></figure>
+<p>这时候我们把函数形势声明注视掉：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">console.log(a);// undefined</span><br><span class="line"></span><br><span class="line">var a  = function ()&#123;console.log(2)&#125;</span><br><span class="line"></span><br><span class="line">a();// 2</span><br></pre></td></tr></table></figure>
+<p>通过对比我们发现不注视之前我们在最上面调用a方法输出1，注视之后我们在最上面发现原本是a函数现在是undefined，我们来看一下第一段代码预编译做了些什么。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var a;</span><br><span class="line"></span><br><span class="line">function a()&#123;</span><br><span class="line">    console.log(1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a();// 1</span><br><span class="line"></span><br><span class="line">a  = function ()&#123;console.log(2)&#125;</span><br><span class="line"></span><br><span class="line">a();// 2</span><br></pre></td></tr></table></figure>
+<p>其实预编译时候是这样的，首先是变量的声明提升，接下来是函数式声明与赋值，（函数式声明赋值是一块的），然后是变量的赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var a = 2;</span><br><span class="line"></span><br><span class="line">;(function()&#123;</span><br><span class="line">    console.log(a);// function a()&#123; … &#125;</span><br><span class="line"></span><br><span class="line">    var a = 5;</span><br><span class="line"></span><br><span class="line">    function a()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    console.log(a); // 5</span><br><span class="line"></span><br><span class="line">    var a = function()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    console.log(a);// function()&#123;&#125;</span><br><span class="line">&#125;());</span><br><span class="line">console.log(a);// 2</span><br></pre></td></tr></table></figure>
+<p>在上面这段代码中函数内部a的值是这样变化的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var a ;</span><br><span class="line"></span><br><span class="line">a === undefined</span><br><span class="line"></span><br><span class="line">function a()&#123;&#125;;</span><br><span class="line"></span><br><span class="line">a === function a()&#123;&#125;</span><br><span class="line"></span><br><span class="line">a === 5</span><br><span class="line"></span><br><span class="line">a === function()&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在js引擎预编译过程中，变量和函数的声明提升过程是这样的，首先是变量声明（var = 变量名），然后是函数式声明赋值过程，函数内部接受参数相当于var这个变量=传入的参数，最后才是根据程序上下文该赋值的赋值该输出的输出。这个过程中只有（var，function）声明过程被提升且由function 声明的函数声明赋值一块进行，var声明过程在function之前。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpeg" alt="Meoworu">
+            Meoworu
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/&title=《js中变量的声明与函数的声明提升》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/&title=《js中变量的声明与函数的声明提升》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《js中变量的声明与函数的声明提升》 — Meoworu&url=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/06/02/call-apply-bind-实现与区别/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">call, apply, bind 实现与区别</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: '5d2d12e3fa40f96d6924',
+          clientSecret: '2bf71327a134f3db135af401a4a89af04766922d',
+          repo: 'meoworu.github.io',
+          owner: 'Meoworu',
+          admin: ['Meoworu'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢🙏🙏🙏
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpeg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpeg" data-alipay="/img/alipay.jpeg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <!-- <footer class="footer">
+    <div class="bottom">
+        <p><span>Meoworu &copy; 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer> -->
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/&title=《js中变量的声明与函数的声明提升》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/&title=《js中变量的声明与函数的声明提升》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《js中变量的声明与函数的声明提升》 — Meoworu&url=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/06/03/js中变量的声明与函数的声明提升/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
