@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?afdab76bce7d1c3e421ae7aeee6614da"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>魅族手机Webview中使用vue-router不能返回问题 | Meoworu | 前端小白</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#333">
+    
+    
+    <meta name="keywords" content>
+    <meta name="description" content="混合式开发在魅族手机上遇到的坑                                                                                             Switzerland              魅族手机可能是很多开发的噩梦，不仅仅是native（ios ，android）开发人员，就像我一个前端开发人员也是被他坑惨。下面我们来">
+<meta name="keywords" content="js javascript vue react vuex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="魅族手机Webview中使用vue-router不能返回问题">
+<meta property="og:url" content="http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/index.html">
+<meta property="og:site_name" content="Meoworu">
+<meta property="og:description" content="混合式开发在魅族手机上遇到的坑                                                                                             Switzerland              魅族手机可能是很多开发的噩梦，不仅仅是native（ios ，android）开发人员，就像我一个前端开发人员也是被他坑惨。下面我们来">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/b8a2e95c3b895d9fc5291231c0125799a4974dd91b3972c43e19ac6e0875fe18d6c3f6ae8aa9e2e14e09f20af394ef31?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=LauterbrunnenSwitzerland.jpg&size=750">
+<meta property="og:updated_time" content="2019-06-12T03:55:13.797Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="魅族手机Webview中使用vue-router不能返回问题">
+<meta name="twitter:description" content="混合式开发在魅族手机上遇到的坑                                                                                             Switzerland              魅族手机可能是很多开发的噩梦，不仅仅是native（ios ，android）开发人员，就像我一个前端开发人员也是被他坑惨。下面我们来">
+<meta name="twitter:image" content="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/b8a2e95c3b895d9fc5291231c0125799a4974dd91b3972c43e19ac6e0875fe18d6c3f6ae8aa9e2e14e09f20af394ef31?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=LauterbrunnenSwitzerland.jpg&size=750">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Meoworu</h5>
+          <a href="mailto:007xiangye@gmail.com" title="007xiangye@gmail.com" class="mail">007xiangye@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Meoworu" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://twitter.com/meoworu" target="_blank">
+                <i class="icon icon-lg icon-twitter"></i>
+                Twitter
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">魅族手机Webview中使用vue-router不能返回问题</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">魅族手机Webview中使用vue-router不能返回问题</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-12T03:54:58.000Z" itemprop="datePublished" class="page-time">
+  2019-06-12
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#混合式开发在魅族手机上遇到的坑"><span class="post-toc-number">1.</span> <span class="post-toc-text">混合式开发在魅族手机上遇到的坑</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开发模式"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">开发模式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#魅族手机webView中最多只能保留一条浏览器历史记录"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">魅族手机webView中最多只能保留一条浏览器历史记录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-魅族手机Webview中使用vue-router不能返回问题" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">魅族手机Webview中使用vue-router不能返回问题</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-12 11:54:58" datetime="2019-06-12T03:54:58.000Z" itemprop="datePublished">2019-06-12</time>
+
+            
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="混合式开发在魅族手机上遇到的坑"><a href="#混合式开发在魅族手机上遇到的坑" class="headerlink" title="混合式开发在魅族手机上遇到的坑"></a>混合式开发在魅族手机上遇到的坑</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/b8a2e95c3b895d9fc5291231c0125799a4974dd91b3972c43e19ac6e0875fe18d6c3f6ae8aa9e2e14e09f20af394ef31?pictype=scale&from=30013&version=3.3.3.3&uin=845076015&fname=LauterbrunnenSwitzerland.jpg&size=750" alt="Switzerland" title>
+                </div>
+                <div class="image-caption">Switzerland</div>
+            </figure>
+<p>魅族手机可能是很多开发的噩梦，不仅仅是native（ios ，android）开发人员，就像我一个前端开发人员也是被他坑惨。下面我们来聊一下我遇到的坑。</p>
+<h2 id="开发模式"><a href="#开发模式" class="headerlink" title="开发模式"></a>开发模式</h2><p>架构模式：Hybrid</p>
+<p>h5框架：Vue</p>
+<h2 id="魅族手机webView中最多只能保留一条浏览器历史记录"><a href="#魅族手机webView中最多只能保留一条浏览器历史记录" class="headerlink" title="魅族手机webView中最多只能保留一条浏览器历史记录"></a>魅族手机webView中最多只能保留一条浏览器历史记录</h2><ol>
+<li>在开发过程中，我在设计某些一连串的关联页面时候使用了大家都很常用的vue-router，但是在这个时候我发现一个问题，就是：魅族手机webView中最多只能保留一条浏览器历史记录，这导致我的路由没法连续返回，最多只能返回一次。<br>这时候我果断使用了vue-router的勾子函数：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Router.prototype.goBack = function()&#123;</span><br><span class="line">    this.isBack = true;</span><br><span class="line">    let path = this.pathArr[this.pathArr.length - 2];</span><br><span class="line">    this.push(path);</span><br><span class="line">    this.pathArr.splice(this.pathArr.length - 1, 1);</span><br><span class="line">&#125;</span><br><span class="line">Router.prototype.enter = function(path)&#123;</span><br><span class="line">    this.pathArr.push(path);</span><br><span class="line">    this.push(path);</span><br><span class="line">&#125;</span><br><span class="line">const router =  new Router(&#123;</span><br><span class="line">    routes,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">router.pathArr = [&apos;/&apos;];</span><br><span class="line">router.beforeEach((to, from, next) =&gt; &#123;</span><br><span class="line">    /* 路由发生变化修改页面title */</span><br><span class="line">    if(to.meta.title != &apos;&apos;)&#123;</span><br><span class="line">        document.title = to.meta.title</span><br><span class="line">    &#125;</span><br><span class="line">    if(to.name == &apos;jobDescription&apos;)&#123;</span><br><span class="line">        if(from.name == &apos;fullSalary&apos; || from.name == &apos;partSalary&apos;)&#123;</span><br><span class="line">            to.meta.isUseCache = true;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            to.meta.isUseCache = false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    next()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>没有历史记录我们就自我创建路由的历史记录，<br>首先我为路由实例添加一个新的属性，pathArr来保存我们的路由历史记录，然后我为vueRouter的原型对象添加了两个方法：</p>
+<ol>
+<li>enter方法，是当使用路由进入下一个路由时候使用的方法，很简单就是在在puth方法的基础上做了个中间层在这其中我将每条路由的历史记录保存在pathArr中，</li>
+<li>goBack方法，同样道理我为原型对象添加了goBack方法为了在返回时候从pathArr中取出路由进行跳转同时删除这一条</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们在日常开发过程中会遇到这种情况，只种模式被称为桥接模式，就是用做中间层的方法来处理问题。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpeg" alt="Meoworu">
+            Meoworu
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/&title=《魅族手机Webview中使用vue-router不能返回问题》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/&title=《魅族手机Webview中使用vue-router不能返回问题》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《魅族手机Webview中使用vue-router不能返回问题》 — Meoworu&url=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/06/03/js中变量的声明与函数的声明提升/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">js中变量的声明与函数的声明提升</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+        var id = location.pathname
+        if (location.pathname.length > 50) {
+          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
+        }
+        const gitalk = new Gitalk({
+          clientID: '5d2d12e3fa40f96d6924',
+          clientSecret: '2bf71327a134f3db135af401a4a89af04766922d',
+          repo: 'meoworu.github.io',
+          owner: 'Meoworu',
+          admin: ['Meoworu'],
+          id: id,      // Ensure uniqueness and length less than 50
+          title: document.title.split('|')[0],
+          distractionFreeMode: false  // Facebook-like distraction free mode
+        })
+
+        gitalk.render('gitalk-container')
+    </script>
+</section>
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢🙏🙏🙏
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpeg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpeg" data-alipay="/img/alipay.jpeg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <!-- <footer class="footer">
+    <div class="bottom">
+        <p><span>Meoworu &copy; 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer> -->
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/&title=《魅族手机Webview中使用vue-router不能返回问题》 — Meoworu&pic=http://yoursite.com/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/&title=《魅族手机Webview中使用vue-router不能返回问题》 — Meoworu&source=js javascript vue react vuex" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《魅族手机Webview中使用vue-router不能返回问题》 — Meoworu&url=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/06/12/魅族手机Webview中使用vue-router不能返回问题/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
